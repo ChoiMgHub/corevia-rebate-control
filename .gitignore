@@ -1,0 +1,5 @@
+data/
+docs/
+backups/
+node_modules/
+*.log

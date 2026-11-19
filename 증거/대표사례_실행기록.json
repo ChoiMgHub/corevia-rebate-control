@@ -1,0 +1,1179 @@
+{
+  "generatedAt": "2026-11-13T05:22:33.874Z",
+  "note": "메모리 DB · 고정 입력 · 모의 AI 응답. 실제 Gemini 요약과 화면 검수는 별도.",
+  "cases": [
+    {
+      "name": "정상",
+      "purpose": "원본 미지급 건을 관련자 월 합산으로 검토해 올바른 승인자에게 상신하고 수취계좌 확인 후 모의 지급",
+      "steps": [
+        {
+          "step": 1,
+          "title": "원본 미지급 RB-00054(D-011) 승인 검토 요청",
+          "input": {
+            "type": "ORIGINAL",
+            "id": "RB-00054"
+          },
+          "ok": true,
+          "message": "RB-00054 승인 검토 요청 생성 · 원본 금액은 월 합산에 한 번만 반영",
+          "request": {
+            "id": "SIM-SRC-RB-00054",
+            "status": "검토 대기",
+            "group": [
+              "D-011",
+              "D-024",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": null,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 2,
+          "title": "관련 거래처 D-024의 RB-00120도 승인 검토 요청 (같은 그룹, 중복 합산 없음)",
+          "input": {
+            "type": "ORIGINAL",
+            "id": "RB-00120"
+          },
+          "ok": true,
+          "message": "RB-00120 승인 검토 요청 생성 · 원본 금액은 월 합산에 한 번만 반영",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "검토 대기",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": null,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 3,
+          "title": "영업임원 모의 승인",
+          "input": {
+            "type": "DECIDE",
+            "id": "SIM-SRC-RB-00054",
+            "decision": "승인 완료"
+          },
+          "ok": true,
+          "message": "SIM-SRC-RB-00054 영업임원 승인 완료 · 합산 3,888,097원 · 관련자 D-011, D-024, D-037 · 사람 결정(모의)",
+          "request": {
+            "id": "SIM-SRC-RB-00054",
+            "status": "승인 완료",
+            "group": [
+              "D-011",
+              "D-024",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 4,
+          "title": "수취계좌 없이 지급 시도 → 차단",
+          "input": {
+            "type": "PAY",
+            "id": "SIM-SRC-RB-00054",
+            "bank": "",
+            "number": "",
+            "memo": "",
+            "hasDraft": false
+          },
+          "ok": false,
+          "message": "은행을 선택해 주세요.",
+          "request": {
+            "id": "SIM-SRC-RB-00054",
+            "status": "승인 완료",
+            "group": [
+              "D-011",
+              "D-024",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 5,
+          "title": "수취계좌 입력·소유 확인 근거 기록 (모의)",
+          "input": {
+            "type": "CONFIRM_ACCOUNT",
+            "method": "등록 연락처 통화",
+            "id": "SIM-SRC-RB-00054",
+            "bank": "테스트은행",
+            "number": "123456789012",
+            "memo": "기존 등록 연락처로 예금주 및 계좌 확인 (모의 회신)"
+          },
+          "ok": true,
+          "message": "SIM-SRC-RB-00054 수취계좌 형식 점검 및 소유 확인 근거 기록 · 사용자 모의 확인",
+          "request": {
+            "id": "SIM-SRC-RB-00054",
+            "status": "승인 완료",
+            "group": [
+              "D-011",
+              "D-024",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": true
+          }
+        },
+        {
+          "step": 6,
+          "title": "모의 지급 작업 완료",
+          "input": {
+            "type": "PAY",
+            "id": "SIM-SRC-RB-00054",
+            "bank": "테스트은행",
+            "number": "123456789012",
+            "memo": "기존 등록 연락처로 예금주 및 계좌 확인 (모의 회신)",
+            "hasDraft": false
+          },
+          "ok": true,
+          "message": "SIM-SRC-RB-00054 모의 지급 작업 완료 · 실제 송금 없음",
+          "request": {
+            "id": "SIM-SRC-RB-00054",
+            "status": "모의 지급 완료",
+            "group": [
+              "D-011",
+              "D-024",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": true
+          }
+        },
+        {
+          "step": 7,
+          "title": "같은 원본 재요청 시도 → 차단",
+          "input": {
+            "type": "ORIGINAL",
+            "id": "RB-00054"
+          },
+          "ok": false,
+          "message": "RB-00054은 이미 요청되었습니다 (모의 지급 완료). 기존 요청을 확인해 주세요.",
+          "request": {
+            "id": "SIM-SRC-RB-00054",
+            "status": "모의 지급 완료",
+            "group": [
+              "D-011",
+              "D-024",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "변경",
+      "purpose": "승인 뒤 정산계좌 변경과 관련자 월 합산 변동이 들어와 기존 승인을 재검증하고 지급을 보류",
+      "steps": [
+        {
+          "step": 1,
+          "title": "D-001 2026-07 신규 요청 1,500,000원",
+          "input": {
+            "type": "CREATE",
+            "agency": "D-001",
+            "month": "2026-07",
+            "amount": 1500000,
+            "reason": "7월 판매장려금 (시연)"
+          },
+          "ok": true,
+          "message": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f 지급 검토 요청이 생성되었습니다.",
+          "request": null
+        },
+        {
+          "step": 2,
+          "title": "영업지원팀 모의 승인 (합산 1,500,000원)",
+          "input": {
+            "type": "DECIDE",
+            "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+            "decision": "승인 완료"
+          },
+          "ok": true,
+          "message": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f 영업지원팀 승인 완료 · 합산 1,500,000원 · 관련자 D-001 · 사람 결정(모의)",
+          "request": {
+            "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+            "status": "승인 완료",
+            "group": [
+              "D-001"
+            ],
+            "monthTotal": 1500000,
+            "contribution": 1500000,
+            "approver": "영업지원팀",
+            "approvedTotal": 1500000,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 3,
+          "title": "D-001 정산계좌 변경 접수 (불리한 조건: 지급 직전 계좌 변경)",
+          "input": {
+            "type": "CHANGE",
+            "agency": "D-001",
+            "bank": "테스트은행",
+            "number": "987654321098"
+          },
+          "ok": true,
+          "message": "D-001 계좌 변경 접수 · 독립 확인 요청 및 관련 승인 재검토",
+          "request": {
+            "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+            "status": "재검토 필요",
+            "group": [
+              "D-001"
+            ],
+            "monthTotal": 1500000,
+            "contribution": 1500000,
+            "approver": "영업지원팀",
+            "approvedTotal": 1500000,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 4,
+          "title": "변경 확인 전 재승인 시도 → 차단",
+          "input": {
+            "type": "DECIDE",
+            "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+            "decision": "승인 완료"
+          },
+          "ok": false,
+          "message": "계좌 변경 또는 미해결 소명 작업을 먼저 확인해 주세요.",
+          "request": {
+            "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+            "status": "재검토 필요",
+            "group": [
+              "D-001"
+            ],
+            "monthTotal": 1500000,
+            "contribution": 1500000,
+            "approver": "영업지원팀",
+            "approvedTotal": 1500000,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 5,
+          "title": "기존 연락처로 변경 계좌 소유 확인 기록 (모의 회신)",
+          "input": {
+            "type": "CONFIRM_CHANGE",
+            "method": "등록 연락처 통화",
+            "id": "CH-6f6e9520-36f5-4fed-9893-df88eeb52a04",
+            "accept": true,
+            "memo": "기존 등록 연락처로 예금주·계좌 확인 (모의)"
+          },
+          "ok": true,
+          "message": "D-001 계좌 변경 확인 완료 · 모의 회신",
+          "request": {
+            "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+            "status": "재검토 필요",
+            "group": [
+              "D-001"
+            ],
+            "monthTotal": 1500000,
+            "contribution": 1500000,
+            "approver": "영업지원팀",
+            "approvedTotal": 1500000,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 6,
+          "title": "재승인·수취계좌 확인·모의 지급",
+          "input": {
+            "type": "DECIDE",
+            "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+            "decision": "승인 완료"
+          },
+          "ok": true,
+          "message": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f 영업지원팀 승인 완료 · 합산 1,500,000원 · 관련자 D-001 · 사람 결정(모의)",
+          "request": {
+            "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+            "status": "승인 완료",
+            "group": [
+              "D-001"
+            ],
+            "monthTotal": 1500000,
+            "contribution": 1500000,
+            "approver": "영업지원팀",
+            "approvedTotal": 1500000,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 7,
+          "title": "수취계좌 확인 (모의)",
+          "input": {
+            "type": "CONFIRM_ACCOUNT",
+            "method": "등록 연락처 통화",
+            "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+            "bank": "테스트은행",
+            "number": "123456789012",
+            "memo": "기존 등록 연락처로 예금주 및 계좌 확인 (모의 회신)"
+          },
+          "ok": true,
+          "message": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f 수취계좌 형식 점검 및 소유 확인 근거 기록 · 사용자 모의 확인",
+          "request": {
+            "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+            "status": "승인 완료",
+            "group": [
+              "D-001"
+            ],
+            "monthTotal": 1500000,
+            "contribution": 1500000,
+            "approver": "영업지원팀",
+            "approvedTotal": 1500000,
+            "paymentAccountConfirmed": true
+          }
+        },
+        {
+          "step": 8,
+          "title": "모의 지급 작업 완료",
+          "input": {
+            "type": "PAY",
+            "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+            "bank": "테스트은행",
+            "number": "123456789012",
+            "memo": "기존 등록 연락처로 예금주 및 계좌 확인 (모의 회신)",
+            "hasDraft": false
+          },
+          "ok": true,
+          "message": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f 모의 지급 작업 완료 · 실제 송금 없음",
+          "request": {
+            "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+            "status": "모의 지급 완료",
+            "group": [
+              "D-001"
+            ],
+            "monthTotal": 1500000,
+            "contribution": 1500000,
+            "approver": "영업지원팀",
+            "approvedTotal": 1500000,
+            "paymentAccountConfirmed": true
+          }
+        },
+        {
+          "step": 9,
+          "title": "D-001 2026-08 요청 A 1,200,000원 → 승인",
+          "input": {
+            "type": "CREATE",
+            "agency": "D-001",
+            "month": "2026-08",
+            "amount": 1200000,
+            "reason": "8월 판매장려금 A (시연)"
+          },
+          "ok": true,
+          "message": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de 지급 검토 요청이 생성되었습니다.",
+          "request": null
+        },
+        {
+          "step": 10,
+          "title": "영업지원팀 모의 승인 (합산 1,200,000원)",
+          "input": {
+            "type": "DECIDE",
+            "id": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de",
+            "decision": "승인 완료"
+          },
+          "ok": true,
+          "message": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de 영업지원팀 승인 완료 · 합산 1,200,000원 · 관련자 D-001 · 사람 결정(모의)",
+          "request": {
+            "id": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de",
+            "status": "승인 완료",
+            "group": [
+              "D-001"
+            ],
+            "monthTotal": 1200000,
+            "contribution": 1200000,
+            "approver": "영업지원팀",
+            "approvedTotal": 1200000,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 11,
+          "title": "수취계좌 확인 (모의)",
+          "input": {
+            "type": "CONFIRM_ACCOUNT",
+            "method": "등록 연락처 통화",
+            "id": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de",
+            "bank": "테스트은행",
+            "number": "123456789012",
+            "memo": "기존 등록 연락처로 예금주 및 계좌 확인 (모의 회신)"
+          },
+          "ok": true,
+          "message": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de 수취계좌 형식 점검 및 소유 확인 근거 기록 · 사용자 모의 확인",
+          "request": {
+            "id": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de",
+            "status": "승인 완료",
+            "group": [
+              "D-001"
+            ],
+            "monthTotal": 1200000,
+            "contribution": 1200000,
+            "approver": "영업지원팀",
+            "approvedTotal": 1200000,
+            "paymentAccountConfirmed": true
+          }
+        },
+        {
+          "step": 12,
+          "title": "같은 달 요청 B 900,000원 추가 → 관련자 월 합산 2,100,000원",
+          "input": {
+            "type": "CREATE",
+            "agency": "D-001",
+            "month": "2026-08",
+            "amount": 900000,
+            "reason": "8월 판매장려금 B (시연)"
+          },
+          "ok": true,
+          "message": "SIM-47840322-68d5-481b-b4f8-f9638a346575 지급 검토 요청이 생성되었습니다.",
+          "request": null
+        },
+        {
+          "step": 13,
+          "title": "요청 A 지급 시도 → 승인 당시 합산과 달라 보류",
+          "input": {
+            "type": "PAY",
+            "id": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de",
+            "bank": "테스트은행",
+            "number": "123456789012",
+            "memo": "기존 등록 연락처로 예금주 및 계좌 확인 (모의 회신)",
+            "hasDraft": false
+          },
+          "ok": false,
+          "message": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de 조건 변경으로 지급 보류",
+          "request": {
+            "id": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de",
+            "status": "재검토 필요",
+            "group": [
+              "D-001"
+            ],
+            "monthTotal": 2100000,
+            "contribution": 1200000,
+            "approver": "영업임원",
+            "approvedTotal": 1200000,
+            "paymentAccountConfirmed": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "정보 부족·승인 거절",
+      "purpose": "거절 뒤 영업지원의 소명 회신과 재무의 판정에 따라 재상신 가능 여부가 달라지고, 해외 계좌는 계속 보류",
+      "steps": [
+        {
+          "step": 1,
+          "title": "RB-00120(D-024) 거절 사유 없이 거절 시도 → 차단",
+          "input": {
+            "type": "DECIDE",
+            "id": "SIM-SRC-RB-00120",
+            "decision": "거절"
+          },
+          "ok": false,
+          "message": "거절 사유를 10자 이상 입력해 주세요.",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "검토 대기",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": null,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 2,
+          "title": "사유 기록 후 거절",
+          "input": {
+            "type": "DECIDE",
+            "id": "SIM-SRC-RB-00120",
+            "decision": "거절",
+            "reason": "관련 거래처 공동 정산계좌의 소유 확인 자료가 없습니다."
+          },
+          "ok": true,
+          "message": "SIM-SRC-RB-00120 영업임원 거절 · 합산 3,888,097원 · 관련자 D-024, D-011, D-037 · 사람 결정(모의)",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "거절",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 3,
+          "title": "AI 검토 요약 생성 (모의 응답)",
+          "input": {
+            "type": "AI_REVIEW",
+            "id": "SIM-SRC-RB-00120"
+          },
+          "ok": true,
+          "message": "SIM-SRC-RB-00120 AI 검토 요약 생성",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "거절",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          },
+          "aiSummary": "**근거:** 관련 그룹 D-011, D-024, D-037 · 월 합산 3,888,097원 · 필요 승인 영업임원\n**미확인 사항:** 수취계좌 확인 미완료 · 확인 작업 0건\n**다음 행동:** 담당자 확인 후 사람이 승인 여부를 결정"
+        },
+        {
+          "step": 4,
+          "title": "AI 요약을 근거로 영업지원에 계좌 소유 확인 요청 (재무 작성)",
+          "input": {
+            "type": "TASK_CREATE",
+            "id": "SIM-SRC-RB-00120",
+            "source": "AI",
+            "sourceReviewId": "demo-ai-1",
+            "taskType": "계좌 소유 확인",
+            "ownerRole": "영업지원",
+            "question": "D-011·D-024·D-037이 공유하는 정산계좌의 예금주와 사용 사유를 확인해 주세요.",
+            "reason": "관련 거래처 간 정산계좌 일치로 지급 수취계좌 소유 확인이 필요합니다.",
+            "requiredEvidence": "기존 등록 연락처 확인 기록과 예금주 확인 자료",
+            "scenarioDate": "2026-07-01",
+            "dueDate": "2026-07-08"
+          },
+          "ok": true,
+          "message": "SIM-SRC-RB-00120 확인 요청 접수 · 소명 대기 · 기존 승인 사용 불가",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "소명 대기",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 5,
+          "title": "소명 중 재상신 시도 → 차단",
+          "input": {
+            "type": "RESUBMIT",
+            "id": "SIM-SRC-RB-00120",
+            "reason": "자료 확인 전 재상신 시도 (시연)"
+          },
+          "ok": false,
+          "message": "모든 확인 작업의 최신 회신을 충분으로 검토한 뒤 재상신해 주세요.",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "소명 대기",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 6,
+          "title": "영업지원 1차 회신: 설명만 제출",
+          "input": {
+            "type": "TASK_REPLY",
+            "id": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1",
+            "role": "영업지원",
+            "content": "세 거래처는 같은 대표가 운영하며 정산계좌를 공유합니다.",
+            "evidenceRef": "DEMO-REPLY-001 유선 설명",
+            "checkedDate": "2026-07-02"
+          },
+          "ok": true,
+          "message": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1 1차 회신 접수 · 사람 검토 필요",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "소명 대기",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 7,
+          "title": "재무 판정: 추가 자료 필요",
+          "input": {
+            "type": "TASK_REVIEW",
+            "id": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1",
+            "role": "재무",
+            "responseVersion": "1",
+            "decision": "추가 자료 필요",
+            "reason": "설명만으로는 부족합니다. 예금주 확인 자료와 확인 방법을 제출해 주세요."
+          },
+          "ok": true,
+          "message": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1 추가 자료 필요 · 소명 대기",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "소명 대기",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 8,
+          "title": "영업지원 2차 회신: 예금주 확인 자료 제출",
+          "input": {
+            "type": "TASK_REPLY",
+            "id": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1",
+            "role": "영업지원",
+            "content": "기존 등록 연락처로 예금주를 확인했고 예금주 확인서 사본을 접수했습니다.",
+            "evidenceRef": "DEMO-DOC-002 예금주 확인서 (모의)",
+            "checkedDate": "2026-07-03"
+          },
+          "ok": true,
+          "message": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1 2차 회신 접수 · 사람 검토 필요",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "소명 대기",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 9,
+          "title": "재무 판정: 충분",
+          "input": {
+            "type": "TASK_REVIEW",
+            "id": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1",
+            "role": "재무",
+            "responseVersion": "2",
+            "decision": "충분",
+            "reason": "확인 방법과 예금주 자료가 있어 재상신 가능합니다."
+          },
+          "ok": true,
+          "message": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1 충분 · 재상신 대기",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "재상신 대기",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 10,
+          "title": "같은 요청 재상신",
+          "input": {
+            "type": "RESUBMIT",
+            "id": "SIM-SRC-RB-00120",
+            "reason": "예금주 확인 자료를 보완하고 재무 검토를 마쳐 재상신합니다."
+          },
+          "ok": true,
+          "message": "SIM-SRC-RB-00120 같은 요청으로 재상신 완료 · 새 승인 필요",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "검토 대기",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 11,
+          "title": "영업임원 모의 승인 (관련자 합산 유지)",
+          "input": {
+            "type": "DECIDE",
+            "id": "SIM-SRC-RB-00120",
+            "decision": "승인 완료"
+          },
+          "ok": true,
+          "message": "SIM-SRC-RB-00120 영업임원 승인 완료 · 합산 3,888,097원 · 관련자 D-024, D-011, D-037 · 사람 결정(모의)",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "승인 완료",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 12,
+          "title": "해외/기타 계좌 입력 → 지원 범위 밖 보류",
+          "input": {
+            "type": "CONFIRM_ACCOUNT",
+            "method": "등록 연락처 통화",
+            "id": "SIM-SRC-RB-00120",
+            "bank": "해외/기타",
+            "number": "GB12345678901234567890",
+            "memo": "기존 등록 연락처로 예금주 및 계좌 확인 (모의 회신)"
+          },
+          "ok": false,
+          "message": "해외·기타 계좌는 현재 지원 범위 밖입니다. 재무 담당자에게 국가·은행·계좌 형식과 확인 자료를 요청해 주세요.",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "승인 완료",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": false
+          }
+        },
+        {
+          "step": 13,
+          "title": "국내 테스트 계좌로 확인 후 모의 지급",
+          "input": {
+            "type": "CONFIRM_ACCOUNT",
+            "method": "등록 연락처 통화",
+            "id": "SIM-SRC-RB-00120",
+            "bank": "테스트은행",
+            "number": "123456789012",
+            "memo": "기존 등록 연락처로 예금주 및 계좌 확인 (모의 회신)"
+          },
+          "ok": true,
+          "message": "SIM-SRC-RB-00120 수취계좌 형식 점검 및 소유 확인 근거 기록 · 사용자 모의 확인",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "승인 완료",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": true
+          }
+        },
+        {
+          "step": 14,
+          "title": "모의 지급 작업 완료",
+          "input": {
+            "type": "PAY",
+            "id": "SIM-SRC-RB-00120",
+            "bank": "테스트은행",
+            "number": "123456789012",
+            "memo": "기존 등록 연락처로 예금주 및 계좌 확인 (모의 회신)",
+            "hasDraft": false
+          },
+          "ok": true,
+          "message": "SIM-SRC-RB-00120 모의 지급 작업 완료 · 실제 송금 없음",
+          "request": {
+            "id": "SIM-SRC-RB-00120",
+            "status": "모의 지급 완료",
+            "group": [
+              "D-024",
+              "D-011",
+              "D-037"
+            ],
+            "monthTotal": 3888097,
+            "contribution": 0,
+            "approver": "영업임원",
+            "approvedTotal": 3888097,
+            "paymentAccountConfirmed": true
+          }
+        }
+      ]
+    }
+  ],
+  "relatedParties": {
+    "groups": [
+      {
+        "ids": [
+          "D-011",
+          "D-024",
+          "D-037"
+        ],
+        "edges": [
+          "D-011 ↔ D-024: 대표자, 주소",
+          "D-011 ↔ D-037: 대표자, 정산계좌"
+        ]
+      }
+    ],
+    "june2026": [
+      {
+        "rebate_id": "RB-00054",
+        "agency": "D-011",
+        "amount": 1373515,
+        "status": "미지급"
+      },
+      {
+        "rebate_id": "RB-00120",
+        "agency": "D-024",
+        "amount": 1189046,
+        "status": "미지급"
+      },
+      {
+        "rebate_id": "RB-00180",
+        "agency": "D-037",
+        "amount": 1325536,
+        "status": "미지급"
+      }
+    ],
+    "juneTotal": 3888097
+  },
+  "events": [
+    {
+      "revision": 1,
+      "kind": "ORIGINAL",
+      "target_id": "RB-00054",
+      "summary": "RB-00054 승인 검토 요청 생성 · 원본 금액은 월 합산에 한 번만 반영",
+      "time": "2026-11-13T05:22:33.892Z"
+    },
+    {
+      "revision": 2,
+      "kind": "ORIGINAL",
+      "target_id": "RB-00120",
+      "summary": "RB-00120 승인 검토 요청 생성 · 원본 금액은 월 합산에 한 번만 반영",
+      "time": "2026-11-13T05:22:33.892Z"
+    },
+    {
+      "revision": 3,
+      "kind": "DECIDE",
+      "target_id": "SIM-SRC-RB-00054",
+      "summary": "SIM-SRC-RB-00054 영업임원 승인 완료 · 합산 3,888,097원 · 관련자 D-011, D-024, D-037 · 사람 결정(모의)",
+      "time": "2026-11-13T05:22:33.895Z"
+    },
+    {
+      "revision": 4,
+      "kind": "CONFIRM_ACCOUNT",
+      "target_id": "SIM-SRC-RB-00054",
+      "summary": "SIM-SRC-RB-00054 수취계좌 형식 점검 및 소유 확인 근거 기록 · 사용자 모의 확인",
+      "time": "2026-11-13T05:22:33.896Z"
+    },
+    {
+      "revision": 5,
+      "kind": "PAY",
+      "target_id": "SIM-SRC-RB-00054",
+      "summary": "SIM-SRC-RB-00054 모의 지급 작업 완료 · 실제 송금 없음",
+      "time": "2026-11-13T05:22:33.897Z"
+    },
+    {
+      "revision": 6,
+      "kind": "CREATE",
+      "target_id": null,
+      "summary": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f 지급 검토 요청이 생성되었습니다.",
+      "time": "2026-11-13T05:22:33.899Z"
+    },
+    {
+      "revision": 7,
+      "kind": "DECIDE",
+      "target_id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+      "summary": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f 영업지원팀 승인 완료 · 합산 1,500,000원 · 관련자 D-001 · 사람 결정(모의)",
+      "time": "2026-11-13T05:22:33.900Z"
+    },
+    {
+      "revision": 8,
+      "kind": "CHANGE",
+      "target_id": null,
+      "summary": "D-001 계좌 변경 접수 · 독립 확인 요청 및 관련 승인 재검토",
+      "time": "2026-11-13T05:22:33.901Z"
+    },
+    {
+      "revision": 9,
+      "kind": "CONFIRM_CHANGE",
+      "target_id": "CH-6f6e9520-36f5-4fed-9893-df88eeb52a04",
+      "summary": "D-001 계좌 변경 확인 완료 · 모의 회신",
+      "time": "2026-11-13T05:22:33.902Z"
+    },
+    {
+      "revision": 10,
+      "kind": "DECIDE",
+      "target_id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+      "summary": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f 영업지원팀 승인 완료 · 합산 1,500,000원 · 관련자 D-001 · 사람 결정(모의)",
+      "time": "2026-11-13T05:22:33.902Z"
+    },
+    {
+      "revision": 11,
+      "kind": "CONFIRM_ACCOUNT",
+      "target_id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+      "summary": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f 수취계좌 형식 점검 및 소유 확인 근거 기록 · 사용자 모의 확인",
+      "time": "2026-11-13T05:22:33.903Z"
+    },
+    {
+      "revision": 12,
+      "kind": "PAY",
+      "target_id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+      "summary": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f 모의 지급 작업 완료 · 실제 송금 없음",
+      "time": "2026-11-13T05:22:33.903Z"
+    },
+    {
+      "revision": 13,
+      "kind": "CREATE",
+      "target_id": null,
+      "summary": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de 지급 검토 요청이 생성되었습니다.",
+      "time": "2026-11-13T05:22:33.904Z"
+    },
+    {
+      "revision": 14,
+      "kind": "DECIDE",
+      "target_id": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de",
+      "summary": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de 영업지원팀 승인 완료 · 합산 1,200,000원 · 관련자 D-001 · 사람 결정(모의)",
+      "time": "2026-11-13T05:22:33.904Z"
+    },
+    {
+      "revision": 15,
+      "kind": "CONFIRM_ACCOUNT",
+      "target_id": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de",
+      "summary": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de 수취계좌 형식 점검 및 소유 확인 근거 기록 · 사용자 모의 확인",
+      "time": "2026-11-13T05:22:33.905Z"
+    },
+    {
+      "revision": 16,
+      "kind": "CREATE",
+      "target_id": null,
+      "summary": "SIM-47840322-68d5-481b-b4f8-f9638a346575 지급 검토 요청이 생성되었습니다.",
+      "time": "2026-11-13T05:22:33.905Z"
+    },
+    {
+      "revision": 17,
+      "kind": "PAY",
+      "target_id": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de",
+      "summary": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de 조건 변경으로 지급 보류",
+      "time": "2026-11-13T05:22:33.906Z"
+    },
+    {
+      "revision": 18,
+      "kind": "DECIDE",
+      "target_id": "SIM-SRC-RB-00120",
+      "summary": "SIM-SRC-RB-00120 영업임원 거절 · 합산 3,888,097원 · 관련자 D-024, D-011, D-037 · 사람 결정(모의)",
+      "time": "2026-11-13T05:22:33.907Z"
+    },
+    {
+      "revision": 19,
+      "kind": "AI_REVIEW",
+      "target_id": "SIM-SRC-RB-00120",
+      "summary": "SIM-SRC-RB-00120 AI 검토 요약 생성",
+      "time": "2026-11-13T05:22:33.908Z"
+    },
+    {
+      "revision": 20,
+      "kind": "TASK_CREATE",
+      "target_id": "SIM-SRC-RB-00120",
+      "summary": "SIM-SRC-RB-00120 확인 요청 접수 · 소명 대기 · 기존 승인 사용 불가",
+      "time": "2026-11-13T05:22:33.910Z"
+    },
+    {
+      "revision": 21,
+      "kind": "TASK_REPLY",
+      "target_id": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1",
+      "summary": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1 1차 회신 접수 · 사람 검토 필요",
+      "time": "2026-11-13T05:22:33.912Z"
+    },
+    {
+      "revision": 22,
+      "kind": "TASK_REVIEW",
+      "target_id": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1",
+      "summary": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1 추가 자료 필요 · 소명 대기",
+      "time": "2026-11-13T05:22:33.912Z"
+    },
+    {
+      "revision": 23,
+      "kind": "TASK_REPLY",
+      "target_id": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1",
+      "summary": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1 2차 회신 접수 · 사람 검토 필요",
+      "time": "2026-11-13T05:22:33.913Z"
+    },
+    {
+      "revision": 24,
+      "kind": "TASK_REVIEW",
+      "target_id": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1",
+      "summary": "TASK-SIM-330f08a1-17a1-4e6a-a114-ac5a946d83c1 충분 · 재상신 대기",
+      "time": "2026-11-13T05:22:33.914Z"
+    },
+    {
+      "revision": 25,
+      "kind": "RESUBMIT",
+      "target_id": "SIM-SRC-RB-00120",
+      "summary": "SIM-SRC-RB-00120 같은 요청으로 재상신 완료 · 새 승인 필요",
+      "time": "2026-11-13T05:22:33.915Z"
+    },
+    {
+      "revision": 26,
+      "kind": "DECIDE",
+      "target_id": "SIM-SRC-RB-00120",
+      "summary": "SIM-SRC-RB-00120 영업임원 승인 완료 · 합산 3,888,097원 · 관련자 D-024, D-011, D-037 · 사람 결정(모의)",
+      "time": "2026-11-13T05:22:33.917Z"
+    },
+    {
+      "revision": 27,
+      "kind": "CONFIRM_ACCOUNT",
+      "target_id": "SIM-SRC-RB-00120",
+      "summary": "해외·기타 계좌는 현재 지원 범위 밖입니다. 재무 담당자에게 국가·은행·계좌 형식과 확인 자료를 요청해 주세요.",
+      "time": "2026-11-13T05:22:33.918Z"
+    },
+    {
+      "revision": 28,
+      "kind": "CONFIRM_ACCOUNT",
+      "target_id": "SIM-SRC-RB-00120",
+      "summary": "SIM-SRC-RB-00120 수취계좌 형식 점검 및 소유 확인 근거 기록 · 사용자 모의 확인",
+      "time": "2026-11-13T05:22:33.919Z"
+    },
+    {
+      "revision": 29,
+      "kind": "PAY",
+      "target_id": "SIM-SRC-RB-00120",
+      "summary": "SIM-SRC-RB-00120 모의 지급 작업 완료 · 실제 송금 없음",
+      "time": "2026-11-13T05:22:33.920Z"
+    }
+  ],
+  "finalRequests": [
+    {
+      "id": "SIM-47840322-68d5-481b-b4f8-f9638a346575",
+      "status": "검토 대기",
+      "group": [
+        "D-001"
+      ],
+      "monthTotal": 2100000,
+      "contribution": 900000,
+      "approver": "영업임원",
+      "approvedTotal": null,
+      "paymentAccountConfirmed": false
+    },
+    {
+      "id": "SIM-d0831337-eccd-4458-9a8a-71d71ea549de",
+      "status": "재검토 필요",
+      "group": [
+        "D-001"
+      ],
+      "monthTotal": 2100000,
+      "contribution": 1200000,
+      "approver": "영업임원",
+      "approvedTotal": 1200000,
+      "paymentAccountConfirmed": true
+    },
+    {
+      "id": "SIM-d09fcd11-1d69-47da-a36a-b2af7fe79a3f",
+      "status": "모의 지급 완료",
+      "group": [
+        "D-001"
+      ],
+      "monthTotal": 1500000,
+      "contribution": 1500000,
+      "approver": "영업지원팀",
+      "approvedTotal": 1500000,
+      "paymentAccountConfirmed": true
+    },
+    {
+      "id": "SIM-SRC-RB-00120",
+      "status": "모의 지급 완료",
+      "group": [
+        "D-024",
+        "D-011",
+        "D-037"
+      ],
+      "monthTotal": 3888097,
+      "contribution": 0,
+      "approver": "영업임원",
+      "approvedTotal": 3888097,
+      "paymentAccountConfirmed": true
+    },
+    {
+      "id": "SIM-SRC-RB-00054",
+      "status": "모의 지급 완료",
+      "group": [
+        "D-011",
+        "D-024",
+        "D-037"
+      ],
+      "monthTotal": 3888097,
+      "contribution": 0,
+      "approver": "영업임원",
+      "approvedTotal": 3888097,
+      "paymentAccountConfirmed": true
+    }
+  ]
+}

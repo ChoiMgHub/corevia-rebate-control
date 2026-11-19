@@ -1,0 +1,4 @@
+function agencies(data,state){return data.agencies.map(a=>({...a,...(state.overrides[a.agency_id]||{})}))}
+
+function graph(id,data,state){let list=agencies(data,state), seen=new Set([id]), edges=[], queue=[id], fields=['representative_name','address','bank_account_no'];while(queue.length){let x=queue.shift(), a=list.find(z=>z.agency_id===x);for(const b of list){if(a.agency_id===b.agency_id)continue;let same=fields.filter(f=>a[f]&&a[f]!=='NONE'&&(f==='bank_account_no'?a[f].replace(/[-\s]/g,'')===b[f].replace(/[-\s]/g,''):a[f]===b[f]));if(same.length>=2){if(!seen.has(b.agency_id)){seen.add(b.agency_id);queue.push(b.agency_id);edges.push(`${a.agency_id} ↔ ${b.agency_id}: ${same.map(f=>({'representative_name':'대표자','address':'주소','bank_account_no':'정산계좌'}[f])).join(', ')}`)}}}}return {ids:[...seen],edges}}
+export { agencies, graph };

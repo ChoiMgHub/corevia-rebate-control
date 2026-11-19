@@ -1,0 +1,26 @@
+const assert=require('node:assert/strict');
+(async()=>{
+ const {boot}=await import('./tests/harness.mjs');const {calc}=await import('./domain/amounts.mjs');
+ let h=await boot(),app=h.app,$=h.$;const id='SIM-SRC-RB-00006';
+ const source=app.getData().rebates.find(x=>x.rebate_id==='RB-00006');assert.equal(source.rebate_amount_krw,'988932');
+ assert.match($('unpaid-list').innerHTML,/RB-00006/);await app.act('original','RB-00006');assert.equal(app.getState().requests.length,1);
+ let r=app.getState().requests[0];assert.equal(calc(r,app.getData(),app.getState()).total,988932);assert.equal(calc(r,app.getData(),app.getState()).contribution,0);
+ for(const original of ['RB-00006','RB-00001','missing'])await app.act('original',original);assert.equal(app.getState().requests.length,1);
+ await app.act('decide',id,{decision:'승인 완료'});await app.act('pay',id);assert.equal(app.getState().requests[0].status,'승인 완료');
+ $('pay-bank-'+id).value='해외/기타';$('pay-account-'+id).value='GB12345678901234567890123456789012';await app.act('account-confirm',id);assert.equal(app.getState().requests[0].paymentAccountConfirmed,false);assert.ok(app.getState().requests[0].accountReview);
+ await app.act('pay',id);assert.equal(app.getState().requests[0].status,'승인 완료');
+ $('pay-bank-'+id).value='테스트은행';$('pay-account-'+id).value='123456789012';await app.act('account-confirm',id);assert.equal(app.getState().requests[0].paymentAccountConfirmed,false);
+ $('pay-method-'+id).value='등록 연락처 통화';$('pay-evidence-'+id).value='기존 등록 연락처로 예금주 계좌 확인 (모의)';await app.act('account-confirm',id);
+ $('pay-method-'+id).value='등록 연락처 통화';$('pay-evidence-'+id).value='수정된 근거';await app.act('pay',id);assert.equal(app.getState().requests[0].status,'승인 완료');
+ $('pay-method-'+id).value='등록 연락처 통화';$('pay-evidence-'+id).value='기존 등록 연락처로 예금주 계좌 확인 (모의)';await app.act('pay',id);assert.equal(app.getState().requests[0].status,'모의 지급 완료');
+ h=await boot({storage:h.storage});app=h.app;$=h.$;assert.equal(app.getState().requests[0].status,'모의 지급 완료');await app.act('original','RB-00006');assert.equal(app.getState().requests.length,1);assert.match($('unpaid-list').innerHTML,/모의 지급 완료/);
+ $('month').value='2026-06';$('amount').value='1,000,000';await app.act('create');
+ for(const request of app.getState().requests)assert.equal(calc(request,app.getData(),app.getState()).total,1988932);
+ assert.equal(source.approval_status,'미지급');assert.equal(source.payment_date,'NONE');
+ $('account-bank').value='해외/기타';$('account').value='GB12345678901234567890123456789012';await app.act('change');let change=app.getState().changes[0].id;
+ $('change-method-'+change).value='등록 연락처 통화';$('change-evidence-'+change).value='기존 연락처 자료 도착 (모의)';await app.act('change-confirm',change,{accept:true});assert.equal(app.getState().changes[0].status,'확인 대기');
+ await app.act('change-confirm',change,{accept:false});$('account-bank').value='테스트은행';$('account').value='987-654-321098';await app.act('change');change=app.getState().changes[0].id;
+ $('change-method-'+change).value='등록 연락처 통화';await app.act('change-confirm',change,{accept:true});assert.equal(app.getState().changes[0].status,'확인 대기');assert.match($('toast-message').textContent,/소유 확인 근거/);
+ $('change-method-'+change).value='등록 연락처 통화';$('change-evidence-'+change).value='기존 연락처로 계좌 확인 (모의 회신)';await app.act('change-confirm',change,{accept:true});assert.equal(app.getState().changes[0].status,'확인 완료');assert.equal(app.getState().overrides['D-001'].bank_account_no,'테스트은행 987654321098');assert.ok(app.getState().changes[0].confirmedAt);
+ console.log('PASS: original single counting, duplicate guard, account review/evidence, payment, persisted reload and account changes');
+})().catch(e=>{console.error(e);process.exitCode=1});
