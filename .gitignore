@@ -1,5 +1,5 @@
-data/
-docs/
+data/*.sqlite*
+data/*.lock
 backups/
 node_modules/
 *.log
